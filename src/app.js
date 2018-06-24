@@ -50,6 +50,8 @@ comments.on('comment', (comment) => {
         const url = imgurResult[0];
         console.log(`Processing ${chalk.yellow(url)}`);
 
+        fs.writeFileSync("abc.json", "content!");
+
         upload(url, path.extname(url), (id) => {
             const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
             chalk.green("Uploaded to: " + uploadedUrl);
