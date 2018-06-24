@@ -16,8 +16,8 @@
 const { google } = require('googleapis');
 const fs = require('fs');
 
-const creds = require('./client_secret.json');
-const tokens = require('./credentials.json');
+const creds = require('../client_secret.json');
+const tokens = require('../credentials.json');
 
 const uuid = require('uuid/v4');
 
