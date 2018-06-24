@@ -5,17 +5,9 @@ const Snoostorm = require('snoostorm');
 
 const chalk = require('chalk');
 
-const download = require('download-file');
-const uuid = require('uuid/v4');
+const upload = require('./upload');
 
 const path = require('path');
-
-const downloadOptions = (ext) => {
-    return {
-        directory: "../images/",
-        filename: uuid() + '.' + ext
-    };
-};
 
 // Build Snoowrap and Snoostorm clients
 const reddit = new Snoowrap({
@@ -58,10 +50,11 @@ comments.on('comment', (comment) => {
         const url = imgurResult[0];
         console.log(`Processing ${chalk.yellow(url)}`);
 
-        download(url, downloadOptions(path.extname(url)), (err) => {
-            if (err) throw err;
-        });
-
+        upload(url, path.extname(), (id) => {
+            const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
+            chalk.green("Uploaded to: " + uploadedUrl);
+            reddit.getSubmission(comment.id).reply(uploadedUrl);
+        })
     }
 
     else {
