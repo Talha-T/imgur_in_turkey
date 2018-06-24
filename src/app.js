@@ -9,6 +9,8 @@ const upload = require('./upload');
 
 const path = require('path');
 
+const fs = require('fs');
+
 // Build Snoowrap and Snoostorm clients
 const reddit = new Snoowrap({
     userAgent: 'imgur_in_turkey',
