@@ -10,6 +10,9 @@ const upload = require('./upload');
 const path = require('path');
 
 const fs = require('fs');
+const request = require('request');
+
+const uuid = require('uuid/v4');
 
 // Build Snoowrap and Snoostorm clients
 const reddit = new Snoowrap({
@@ -17,16 +20,25 @@ const reddit = new Snoowrap({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     username: process.env.REDDIT_USER,
-    password: process.env.REDDIT_PASS,
+    password: process.env.REDDIT_PASS
 });
 
 const client = new Snoostorm(reddit);
+
+var download = function (uri, filename, callback) {
+    request.head(uri, function (err, res, body) {
+        console.log('content-type:', res.headers['content-type']);
+        console.log('content-length:', res.headers['content-length']);
+
+        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+    });
+};
 
 console.log(chalk.green('Initialized bot!'));
 
 // Configure options for stream: subreddit & results per query
 const streamOpts = {
-    subreddit: 'test'
+    subreddit: process.env.SUBREDDIT
 };
 
 // Create a Snoostorm CommentStream with the specified options
@@ -41,7 +53,7 @@ comments.on('comment', (comment) => {
     console.log(chalk.blue("Comment received: ") + comment.body);
 
     const imgurRegex = new RegExp(imgurRegexPattern);
-    const imgurResult = imgurRegex.exec(comment.body);
+    const imgurResult = imgurRegex.exec('https://i.imgur.com/ca4pb6q.png');
 
     if (imgurResult != null) {
         console.log(chalk.green(`This comment has imgur link after ${noImgurYet} comments! Processing..`));
@@ -52,13 +64,35 @@ comments.on('comment', (comment) => {
         const url = imgurResult[0];
         console.log(`Processing ${chalk.yellow(url)}`);
 
-        fs.writeFileSync("abc.json", "content!");
+        const ext = path.extname(url);
+        const _path = './images/' + uuid() + ext;
 
-        upload(url, path.extname(url), (id) => {
-            const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
-            chalk.green("Uploaded to: " + uploadedUrl);
-            reddit.getSubmission(comment.id).reply(uploadedUrl);
-        })
+        download(url, _path, function () {
+            console.log(chalk.green("Download and write success!!"));
+            upload(_path, path.extname(_path), (id) => {
+                const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
+                console.log(chalk.green("Uploaded to: " + uploadedUrl));
+                try {
+                    reddit.getComment(comment.id).reply(uploadedUrl);
+                }
+                catch (er) {
+                    const err = er.message;
+                    if (err.indexOf('minute') > -1) {
+                        // Rate limited
+                        
+                        const minutes = err.substring(err.indexOf('minute') - 2).trim();
+                        const minuteNumber = Number(minutes);
+        
+                        console.log(chalk.red("Rate limited, waiting " + minutes + " minutes."))
+
+                        setTimeout(function () {
+                            reddit.getComment(comment.id).reply(uploadedUrl);
+                        }, minuteNumber * 1000 + 1000)
+                    }
+                }
+            });
+        });
+
     }
 
     else {
