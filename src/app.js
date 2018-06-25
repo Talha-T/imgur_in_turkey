@@ -74,10 +74,10 @@ comments.on('comment', (comment) => {
         download(url, _path, function () {
             console.log(chalk.green("Download and write success!!"));
             upload(_path, path.extname(_path), (id) => {
-                const uploadedUrl = `Imgur resmini görüntüle: https://drive.google.com/uc?export=view&id=${id}  \
-                ***** ^Ben bir botum. Yapımcı: /u/ImplicitOperator . Karmamı artırmam yorum limitimi artırıyor :)`
-                console.log(chalk.green("Uploaded to: " + uploadedUrl));
-                reddit.getComment(comment.id).reply(uploadedUrl);
+                const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
+                    console.log(chalk.green("Uploaded to: " + uploadedUrl));
+                reddit.getComment(comment.id).reply(`Imgur resmini görüntüle: https://drive.google.com/uc?export=view&id=${id}  \
+                ***** ^Ben bir botum. Yapımcı: /u/ImplicitOperator . Karmamı artırmam yorum limitimi artırıyor :)`);
             });
         });
 
