@@ -20,7 +20,11 @@ const reddit = new Snoowrap({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     username: process.env.REDDIT_USER,
-    password: process.env.REDDIT_PASS
+    password: process.env.REDDIT_PASS,
+});
+
+reddit.config({
+    continueAfterRatelimitError: true
 });
 
 const client = new Snoostorm(reddit);
@@ -39,7 +43,6 @@ console.log(chalk.green('Initialized bot!'));
 // Configure options for stream: subreddit & results per query
 const streamOpts = {
     subreddit: process.env.SUBREDDIT,
-    continueAfterRatelimitError: true
 };
 
 // Create a Snoostorm CommentStream with the specified options
