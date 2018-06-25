@@ -38,7 +38,8 @@ console.log(chalk.green('Initialized bot!'));
 
 // Configure options for stream: subreddit & results per query
 const streamOpts = {
-    subreddit: process.env.SUBREDDIT
+    subreddit: process.env.SUBREDDIT,
+    continueAfterRatelimitError: true
 };
 
 // Create a Snoostorm CommentStream with the specified options
@@ -72,24 +73,7 @@ comments.on('comment', (comment) => {
             upload(_path, path.extname(_path), (id) => {
                 const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
                 console.log(chalk.green("Uploaded to: " + uploadedUrl));
-                try {
-                    reddit.getComment(comment.id).reply(uploadedUrl);
-                }
-                catch (er) {
-                    const err = er.message;
-                    if (err.indexOf('minute') > -1) {
-                        // Rate limited
-                        
-                        const minutes = err.substring(err.indexOf('minute') - 2).trim();
-                        const minuteNumber = Number(minutes);
-        
-                        console.log(chalk.red("Rate limited, waiting " + minutes + " minutes."))
-
-                        setTimeout(function () {
-                            reddit.getComment(comment.id).reply(uploadedUrl);
-                        }, minuteNumber * 1000 + 1000)
-                    }
-                }
+                reddit.getComment(comment.id).reply(uploadedUrl);
             });
         });
 
