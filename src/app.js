@@ -77,7 +77,7 @@ comments.on('comment', (comment) => {
                 const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
                     console.log(chalk.green("Uploaded to: " + uploadedUrl));
                 reddit.getComment(comment.id).reply(`Imgur resmini görüntüle: https://drive.google.com/uc?export=view&id=${id}  \
-                --- ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator ^Karmamı ^artırmam ^yorum ^limitimi ^artırıyor ^:)`);
+                *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator ^Karmamı ^artırmam ^yorum ^limitimi ^artırıyor ^:)`);
             });
         });
 
