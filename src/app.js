@@ -57,7 +57,7 @@ comments.on('comment', (comment) => {
     console.log(chalk.blue("Comment received: ") + comment.body);
 
     const imgurRegex = new RegExp(imgurRegexPattern);
-    const imgurResult = imgurRegex.exec('https://i.imgur.com/ca4pb6q.png');
+    const imgurResult = imgurRegex.exec(comment.body);
 
     if (imgurResult != null) {
         console.log(chalk.green(`This comment has imgur link after ${noImgurYet} comments! Processing..`));
