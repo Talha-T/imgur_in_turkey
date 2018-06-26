@@ -48,7 +48,7 @@ const streamOpts = {
 // Create a Snoostorm CommentStream with the specified options
 const comments = client.CommentStream(streamOpts);
 
-const imgurRegexPattern = `https?:\\/\\/(i.)?imgur.com\\/\\w+(.\\w+)?`;
+const imgurRegexPattern = `https?:\\/\\/i.imgur.com\\/\\w+\.\\w+`;
 
 let noImgurYet = 0;
 
