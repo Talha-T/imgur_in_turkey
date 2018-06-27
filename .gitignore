@@ -57,6 +57,7 @@ typings/
 # dotenv environment variables file
 .env
 
+<<<<<<< HEAD
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -71,3 +72,7 @@ typings/
 
 # Serverless directories
 .serverless
+=======
+# next.js build output
+.next
+>>>>>>> 32a33b83b2c96687b77f50000205336976e69f17
