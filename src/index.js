@@ -2,7 +2,14 @@ const express = require('express');
 
 const app = express();
 
-let appData = {};
+let appData = {
+  fileCount: 0,
+  lastImgur: 0,
+  lastComment: {},
+  subreddit: process.env.SUBREDDIT,
+  regex: `https?:\\/\\/i.imgur.com\\/\\w+\.\\w+`,
+  up: true
+};
 
 app.get('/', (req, res) => {
   res.status(200).json(appData);
