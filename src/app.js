@@ -68,23 +68,21 @@ const streamOpts = {
 // Create a Snoostorm CommentStream with the specified options
 const comments = client.CommentStream(streamOpts);
 
-const imgurRegexPattern = `https?:\\/\\/i.imgur.com\\/\\w+\.\\w+`;
-
-let noImgurYet = 0;
+const regexPattern = `(https?:\\/\\/i.imgur.com\\/\\w+\.\\w+|https?:\\/\\/i.redd.it\\/\\w+\.\\w+)`;
 
 // On comment, perform whatever logic you want to do
 comments.on('comment', (comment) => {
     console.log(chalk.blue("Comment received: ") + comment.body);
     data.lastComment = comment;
 
-    const imgurRegex = new RegExp(imgurRegexPattern);
-    const imgurResult = imgurRegex.exec(comment.body);
+    const regex = new RegExp(regexPattern);
+    const regexResult = regex.exec(comment.body);
 
-    if (imgurResult != null) {
+    if (regexResult != null) {
         console.log(chalk.green(`This comment has imgur link after ${data.lastImgur} comments! Processing..`));
 
         // Regex matches
-        const url = imgurResult[0];
+        const url = regexResult[0];
         console.log(`Processing ${chalk.yellow(url)}`);
 
         const ext = path.extname(url);
