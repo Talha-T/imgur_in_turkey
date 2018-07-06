@@ -19,6 +19,7 @@ app.use(express.static('images'));
 
 app.listen(process.env.PORT || 3000, () => console.log("Listening to port 3000"));
 
-require('./app.js').ondata = function (data) {
+require('./app.js').ondata(function (data) {
+  console.log("got data! : " + data);
   appData = data;
-};
+});

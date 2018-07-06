@@ -4,7 +4,7 @@ function feedData() {
     dataListener(data);
 }
 
-let dataListener = () => { };
+let dataListener;
 
 let fileCount = 0;
 
@@ -17,6 +17,8 @@ const data = {
     up: true
 };
 module.exports.ondata = (cb) => { dataListener = cb };
+
+console.log(process.env.SUBREDDIT);
 
 const Snoowrap = require('snoowrap');
 const Snoostorm = require('snoostorm');
