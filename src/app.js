@@ -1,5 +1,23 @@
 require('dotenv').config();
 
+function feedData() {
+    dataListener(data);
+}
+
+let dataListener = () => { };
+
+let fileCount = 0;
+
+const data = {
+    fileCount,
+    lastImgur: 0,
+    lastComment: {},
+    subreddit: process.env.SUBREDDIT,
+    regex: `https?:\\/\\/i.imgur.com\\/\\w+\.\\w+`,
+    up: true
+};
+module.exports.ondata = (cb) => { dataListener = cb };
+
 const Snoowrap = require('snoowrap');
 const Snoostorm = require('snoostorm');
 
@@ -55,37 +73,40 @@ let noImgurYet = 0;
 // On comment, perform whatever logic you want to do
 comments.on('comment', (comment) => {
     console.log(chalk.blue("Comment received: ") + comment.body);
+    data.lastComment = comment;
 
     const imgurRegex = new RegExp(imgurRegexPattern);
     const imgurResult = imgurRegex.exec(comment.body);
 
     if (imgurResult != null) {
-        console.log(chalk.green(`This comment has imgur link after ${noImgurYet} comments! Processing..`));
-
-        noImgurYet = 0;
+        console.log(chalk.green(`This comment has imgur link after ${data.lastImgur} comments! Processing..`));
 
         // Regex matches
         const url = imgurResult[0];
         console.log(`Processing ${chalk.yellow(url)}`);
 
         const ext = path.extname(url);
+        const fileName = uuid() + ext;
         const _path = './images/' + uuid() + ext;
 
         download(url, _path, function () {
             console.log(chalk.green("Download and write success!!"));
-            upload(_path, path.extname(_path), (id) => {
-                const uploadedUrl = `https://drive.google.com/uc?export=view&id=${id}`
-                    console.log(chalk.green("Uploaded to: " + uploadedUrl));
-                reddit.getComment(comment.id).reply(`Imgur resmini görüntüle: https://drive.google.com/uc?export=view&id=${id}  \
+            reddit.getComment(comment.id).reply(`Imgur resmini görüntüle: http://imgur-in-turkey.herokuapp.com/${fileName}  \
                 *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator ^Karmamı ^artırmam ^yorum ^limitimi ^artırıyor ^:)`);
-            });
-        });
 
+            data.lastImgur = 0;
+            feedData();
+        });
     }
 
     else {
-        noImgurYet++;
+        data.lastImgur++;
+        feedData();
         console.log(chalk.red("This comment does not have an imgur link!"));
     }
 
+});
+
+fs.readdir("images", (err, files) => {
+    fileCount = files.length;
 });

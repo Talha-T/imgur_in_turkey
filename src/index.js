@@ -2,10 +2,16 @@ const express = require('express');
 
 const app = express();
 
+let appData = {};
+
 app.get('/', (req, res) => {
-  res.status(200).json({ message: "Bot is up!" });
+  res.status(200).json(appData);
 });
 
-app.listen(process.env.PORT || 3000, () => console.log("Listening to port 3000"));
+app.use(express.static('images'));
 
-require('./app.js');
+app.listen(process.env.PORT || 3001, () => console.log("Listening to port 3000"));
+
+require('./app.js').ondata = function (data) {
+  appData = data;
+};
