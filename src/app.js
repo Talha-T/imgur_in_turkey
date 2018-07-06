@@ -89,12 +89,12 @@ comments.on('comment', (comment) => {
 
         const ext = path.extname(url);
         const fileName = uuid() + ext;
-        const _path = '../images/' + fileName;
+        const _path = './images/' + fileName;
 
         download(url, _path, function () {
             console.log(chalk.green("Download and write success!!"));
             reddit.getComment(comment.id).reply(`Imgur resmini görüntüle: http://163.172.133.215:3000/${fileName}  \
-                *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator ^Karmamı ^artırmam ^yorum ^limitimi ^artırıyor ^:)`);
+                *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator ^Yeni ^site: ^http://163.172.133.215 `);
 
             data.lastImgur = 0;
             feedData();
