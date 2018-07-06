@@ -25,7 +25,7 @@ const Snoostorm = require('snoostorm');
 
 const chalk = require('chalk');
 
-const upload = require('./upload');
+// const upload = require('./upload');
 
 const path = require('path');
 
