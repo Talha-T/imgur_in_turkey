@@ -89,7 +89,7 @@ comments.on('comment', (comment) => {
 
         const ext = path.extname(url);
         const fileName = uuid() + ext;
-        const _path = '../images/' + fileName + ext;
+        const _path = '../images/' + fileName;
 
         download(url, _path, function () {
             console.log(chalk.green("Download and write success!!"));
