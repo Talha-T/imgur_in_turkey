@@ -13,7 +13,7 @@ const data = {
     lastImgur: 0,
     lastComment: {},
     subreddit: process.env.SUBREDDIT,
-    regex: `https?:\\/\\/i.imgur.com\\/\\w+\.\\w+`,
+    regex: 'i.imgur ve i.redd.it',
     up: true
 };
 module.exports.ondata = (cb) => { dataListener = cb };
@@ -91,10 +91,11 @@ comments.on('comment', (comment) => {
 
         download(url, _path, function () {
             console.log(chalk.green("Download and write success!!"));
-            reddit.getComment(comment.id).reply(`Imgur resmini görüntüle: http://163.172.133.215:3000/${fileName}  \
-                *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator ^Yeni ^site: ^http://163.172.133.215 `);
+            reddit.getComment(comment.id).reply(`[Imgur resmini görüntüle](http://163.172.133.215:3000/${fileName})  \
+                *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator`);
 
             data.lastImgur = 0;
+            data.fileCount++;
             feedData();
         });
     }
@@ -108,5 +109,6 @@ comments.on('comment', (comment) => {
 });
 
 fs.readdir("images", (err, files) => {
-    fileCount = files.length;
+    data.fileCount = files.length;
+    feedData();
 });
