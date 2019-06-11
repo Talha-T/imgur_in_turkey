@@ -15,7 +15,7 @@ const data = {
   lastImgur: 0,
   lastComment: {},
   subreddit: process.env.SUBREDDIT,
-  regex: "i.imgur ve i.redd.it ve i.hizliresim",
+  regex: "i.imgur ve i.redd.it",
   up: true
 };
 module.exports.ondata = cb => {
@@ -82,7 +82,7 @@ const streamOpts = {
 // Create a Snoostorm CommentStream with the specified options
 const comments = client.CommentStream(streamOpts);
 
-const regexPattern = `(https?:\\/\\/i.imgur.com\\/\\w+\.\\w+|https?:\\/\\/i.redd.it\\/\\w+\.\\w+|https?:\\/\\/i.hizliresim.com\\/\\w+\.\\w+)`;
+const regexPattern = `(https?:\\/\\/i.imgur.com\\/\\w+\.\\w+|https?:\\/\\/i.redd.it\\/\\w+\.\\w+)`;
 
 // On comment, perform whatever logic you want to do
 comments.on("comment", comment => {
