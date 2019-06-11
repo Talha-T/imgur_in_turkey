@@ -115,7 +115,7 @@ comments.on("comment", comment => {
         comment.id
       ).reply(`[Imgur resmini görüntüle](http://${IP}:${PORT}/${fileName})
 
-^(Comeback! -- Ben bir botum. --) [^(Yapımcı)](https://reddit.com/u/ImplicitOperator) ^(--)  [^(durum)](${IP}:${PORT}/) ^(--) [^(bağış)](https://www.patreon.com/implicitr)`);
+^(Comeback! -- Ben bir botum. --) [^(Yapımcı)](https://reddit.com/u/ImplicitOperator) ^(--)  [^(durum)](http://${IP}:${PORT}/) ^(--) [^(bağış)](https://www.patreon.com/implicitr)`);
 
       data.lastImgur = 0;
       data.fileCount++;
