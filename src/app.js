@@ -15,7 +15,7 @@ const data = {
   lastImgur: 0,
   lastComment: {},
   subreddit: process.env.SUBREDDIT,
-  regex: "i.imgur ve i.redd.it",
+  regex: "i.imgur ve i.redd.it ve i.hizliresim",
   up: true
 };
 module.exports.ondata = cb => {
@@ -82,7 +82,7 @@ const streamOpts = {
 // Create a Snoostorm CommentStream with the specified options
 const comments = client.CommentStream(streamOpts);
 
-const regexPattern = `(https?:\\/\\/i.imgur.com\\/\\w+\.\\w+|https?:\\/\\/i.redd.it\\/\\w+\.\\w+)`;
+const regexPattern = `(https?:\\/\\/i.imgur.com\\/\\w+\.\\w+|https?:\\/\\/i.redd.it\\/\\w+\.\\w+|https?:\\/\\/i.hizliresim.com\\/\\w+\.\\w+)`;
 
 // On comment, perform whatever logic you want to do
 comments.on("comment", comment => {
@@ -113,7 +113,7 @@ comments.on("comment", comment => {
       console.log(chalk.green("Download and write success!!"));
       reddit.getComment(
         comment.id
-      ).reply(`[Imgur resmini görüntüle](http://${IP}:${PORT}/${fileName})
+      ).reply(`[Resmi görüntüle](http://${IP}:${PORT}/${fileName})
 
 ^(Comeback! -- Ben bir botum. --) [^(Yapımcı)](https://reddit.com/u/ImplicitOperator) ^(--)  [^(durum)](http://${IP}:${PORT}/) ^(--) [^(bağış)](https://www.patreon.com/implicitr)`);
 
