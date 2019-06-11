@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const PORT = process.env.PORT || 3000;
+
 function feedData() {
     dataListener(data);
 }
@@ -91,8 +93,8 @@ comments.on('comment', (comment) => {
 
         download(url, _path, function () {
             console.log(chalk.green("Download and write success!!"));
-            reddit.getComment(comment.id).reply(`[Imgur resmini görüntüle](http://163.172.133.215:3000/${fileName})  \
-                *** ^Ben ^bir ^botum. ^Yapımcı: ^/u/ImplicitOperator`);
+            reddit.getComment(comment.id).reply(`[Imgur resmini görüntüle](http://163.172.133.215:${PORT}/${fileName})  \
+                *** ^(Comeback! -- Ben bir botum. -- Yapımcı: /u/ImplicitOperator)`);
 
             data.lastImgur = 0;
             data.fileCount++;
