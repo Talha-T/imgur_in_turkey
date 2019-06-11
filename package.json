@@ -31,6 +31,7 @@
     "fs": "0.0.1-security",
     "googleapis": "^27.0.0",
     "path": "^0.12.7",
+    "public-ip": "^3.1.0",
     "request": "^2.87.0",
     "snoostorm": "0.0.5",
     "snoowrap": "^1.15.2",

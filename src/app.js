@@ -31,6 +31,14 @@ const chalk = require("chalk");
 
 // const upload = require('./upload');
 
+let IP = "0.0.0.0";
+
+const publicIp = require("public-ip");
+
+(async () => {
+  IP = await publicIp.v4();
+})();
+
 const path = require("path");
 
 const fs = require("fs");
@@ -105,8 +113,9 @@ comments.on("comment", comment => {
       console.log(chalk.green("Download and write success!!"));
       reddit.getComment(
         comment.id
-      ).reply(`[Imgur resmini görüntüle](http://163.172.133.215:${PORT}/${fileName})  \
-                *** ^(Comeback! -- Ben bir botum. -- Yapımcı: /u/ImplicitOperator)`);
+      ).reply(`[Imgur resmini görüntüle](http://${IP}:${PORT}/${fileName})
+
+                ^(Comeback! -- Ben bir botum. -- Yapımcı: /u/ImplicitOperator) [^(status)](http://${IP}:${PORT}/) ^(--) [^(bağış)](https://www.patreon.com/implicitr)`);
 
       data.lastImgur = 0;
       data.fileCount++;
